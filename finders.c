@@ -1,6 +1,7 @@
 #include "finders.h"
 #include "biomes.h"
 #include "util.h"
+#include "features/ancient_city.h"
 #include "features/stronghold.h"
 
 #include <stdio.h>
@@ -310,6 +311,8 @@ int getStructureSaltConfig(int structureType, int mc, int biome, StructureSaltCo
     ss_stronghold_1192 =             {4,  8},
     ss_stronghold_1194 =             {4, 19},
 
+    ss_ancient_city_119 =            {7,  0},
+
     ss_ruined_portal_nether_118 =    {4, 24},
     ss_ruined_portal_nether_1192 =   {4, 25},
     ss_ruined_portal_nether_1194 =   {4, 14},
@@ -399,6 +402,9 @@ int getStructureSaltConfig(int structureType, int mc, int biome, StructureSaltCo
         else if (mc < MC_1_19_4) *ssconf = ss_stronghold_1192;
         else *ssconf = ss_stronghold_1194;
         return mc >= MC_1_13;
+    case Ancient_City:
+        *ssconf = ss_ancient_city_119;
+        return mc >= MC_1_19;
     case Ruined_Portal_N:
         if (mc < MC_1_19_2) *ssconf = ss_ruined_portal_nether_118;
         else if (mc < MC_1_19_4) *ssconf = ss_ruined_portal_nether_1192;
@@ -4534,6 +4540,7 @@ int getStructurePieces(Piece *list, int n, int stype, StructureSaltConfig ssconf
         return count;
     }
     case Stronghold: return getStrongholdLoot(list, n, ssconf, mc, seed, posX >> 4, posZ >> 4);
+    case Ancient_City: return getAncientCityLoot(list, n, ssconf, mc, seed, posX >> 4, posZ >> 4);
     // structures that have one piece and one chest
     case Treasure: {
         Piece* p = list;
@@ -7872,5 +7879,3 @@ int getLargestRec(int match, const int *ids, int sx, int sz, Pos *p0, Pos *p1)
     free(meta);
     return ret;
 }
-
-
